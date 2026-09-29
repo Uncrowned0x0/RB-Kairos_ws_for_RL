@@ -1,0 +1,50 @@
+curriculum:
+  level: 0                        # Active level (0, 1, 2, 3)
+
+environment:
+  control_hz: 10
+  max_steps_per_level:
+    level0: 400
+    level1: 400
+    level2: 400
+    level3: 600
+
+arm:
+  delta_q_max: 0.05
+  home_position: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
+
+gripper:
+  type: "schunk_egk50"                # "schunk_egk50", "tesollo_dg5f", or "none"
+  tcp_offset: [0.0, 0.0, 0.198]      # Offset [x, y, z] in arm_tool0 frame (flange)
+
+cube:
+  size_range: [0.03, 0.055]
+  mass_values: [0.5, 1.0, 1.5, 2.0]
+  # Spawn above the training table
+  spawn_radius_range: [0.30, 0.70]    # Horizontal distance (m)
+  spawn_angle_range: [-1.2, 1.2]      # Angle in radians
+  spawn_z: 0.76                       # Exact training table height (Z)
+
+drop_zone:
+  # Drop target position above base
+  position: [0.5, -0.3, 0.95]
+
+reward:
+  reach_success_threshold: 0.02       # Level 0 success threshold (m)
+  pick_lift_threshold: 0.10           # Level 1 lift height success threshold (m)
+  place_drop_threshold: 0.15          # Level 2 drop zone radius threshold (m)
+  collision_penalty: -50.0
+  self_collision_penalty: -200.0      # Heavily punitive penalty
+  action_reg_coeff: 0.01
+
+ppo:
+  policy: MlpPolicy
+  learning_rate: 3.0e-4
+  n_steps: 256                        # 256 steps per worker (e.g., 8 workers * 256 = 2048 steps per update)
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  device: auto                        # auto = CUDA if GPU present, CPU otherwise

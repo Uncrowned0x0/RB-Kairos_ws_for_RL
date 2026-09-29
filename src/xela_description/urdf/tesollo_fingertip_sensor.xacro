@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tesollo_fingertip_sensor">
+
+  <xacro:include filename="$(find xela_description)/urdf/xela_materials_and_taxel.xacro" />
+
+  <xacro:macro name="tesollo_fingertip_sensor" params="sequence parent x:=0.0 y:=0.0 z:=0.0 rx:=0.0 ry:=0.0 rz:=0.0 col:='blue' taxels:='1'">
+
+    <!-- Sensor Base Link (Virtual link to attach all taxels) -->
+    <link name="sensor_${sequence}_base_link">
+      <!-- Optional: Add visual shell if required, for now we just attach taxels to it -->
+    </link>
+
+    <!-- Connect sensor base to parent -->
+    <joint name="sensor_${sequence}_base_joint" type="fixed">
+      <origin xyz="${x} ${y} ${z}" rpy="${radians(rx)} ${radians(ry)} ${radians(rz)}"/>
+      <parent link="${parent}"/>
+      <child link="sensor_${sequence}_base_link"/>
+    </joint>
+
+    <xacro:if value="${taxels == '1'}">
+      <!-- 12 Taxels Grid (2-4-6 layout) -->
+      <!-- Pitch is approx 4.7mm = 0.0047m -->
+      <xacro:property name="pitch_x" value="0.0047" />
+      <xacro:property name="pitch_y" value="0.0047" />
+      <!-- Angle in degrees for side taxels -->
+      <xacro:property name="side_angle" value="90" />
+
+      <!-- Row 1 (Top): 2 taxels (Top surface) -->
+      <xacro:taxel sequence="${sequence}_1"  parent="sensor_${sequence}_base_link" x="${-0.5*pitch_x}" y="${1.0*pitch_y}" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_2"  parent="sensor_${sequence}_base_link" x="${0.5*pitch_x}"  y="${1.0*pitch_y}" col="${col}" ry="0"/>
+
+      <!-- Row 2 (Middle): 4 taxels (1 Left Side, 2 Center, 1 Right Side) -->
+      <xacro:taxel sequence="${sequence}_3"  parent="sensor_${sequence}_base_link" x="${-1.5*pitch_x}" y="0.0" col="${col}" ry="${-side_angle}"/>
+      <xacro:taxel sequence="${sequence}_4"  parent="sensor_${sequence}_base_link" x="${-0.5*pitch_x}" y="0.0" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_5"  parent="sensor_${sequence}_base_link" x="${0.5*pitch_x}"  y="0.0" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_6"  parent="sensor_${sequence}_base_link" x="${1.5*pitch_x}"  y="0.0" col="${col}" ry="${side_angle}"/>
+
+      <!-- Row 3 (Bottom): 6 taxels (1 Left Side, 4 Center, 1 Right Side) -->
+      <xacro:taxel sequence="${sequence}_7"  parent="sensor_${sequence}_base_link" x="${-2.5*pitch_x}" y="${-1.0*pitch_y}" col="${col}" ry="${-side_angle}"/>
+      <xacro:taxel sequence="${sequence}_8"  parent="sensor_${sequence}_base_link" x="${-1.5*pitch_x}" y="${-1.0*pitch_y}" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_9"  parent="sensor_${sequence}_base_link" x="${-0.5*pitch_x}" y="${-1.0*pitch_y}" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_10" parent="sensor_${sequence}_base_link" x="${0.5*pitch_x}"  y="${-1.0*pitch_y}" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_11" parent="sensor_${sequence}_base_link" x="${1.5*pitch_x}"  y="${-1.0*pitch_y}" col="${col}" ry="0"/>
+      <xacro:taxel sequence="${sequence}_12" parent="sensor_${sequence}_base_link" x="${2.5*pitch_x}"  y="${-1.0*pitch_y}" col="${col}" ry="${side_angle}"/>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

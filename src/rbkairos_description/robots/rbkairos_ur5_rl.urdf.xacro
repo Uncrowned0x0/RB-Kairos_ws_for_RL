@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="rbkairos_ur5_gripper" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:arg name="use_sim" default="false"/>
+  <xacro:arg name="gazebo_ignition" default="false"/>
+  <xacro:arg name="ur_type" default="ur5e"/>
+  
+  <!-- Supported gripper types: schunk_egk50 (Schunk parallel gripper), tesollo_dg5f (Tesollo DG-5F-R 5-finger hand) -->
+  <xacro:arg name="gripper_type" default="schunk_egk50"/>
+  <xacro:arg name="rl_mode" default="true"/>
+
+  <!-- Include Official KAIROS+ Base Assembly from robotnik_description -->
+  <xacro:include filename="$(find robotnik_description)/robots/rbkairos/rbkairos_plus.urdf.xacro" />
+
+  <!-- FIX BASE TO WORLD FOR RL TRAINING -->
+  <link name="world"/>
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="$(arg prefix)base_footprint"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ========================================== -->
+  <!-- GRIPPER: schunk_egk50 (Default)            -->
+  <!-- ========================================== -->
+  <xacro:if value="${'$(arg gripper_type)' == 'schunk_egk50'}">
+    <xacro:include filename="$(find schunk_egk50_description)/urdf/schunk_egk50.urdf.xacro"/>
+    <xacro:schunk_egk50_gripper parent="$(arg prefix)arm_tool0" prefix="schunk_">
+      <!-- Adapter + EGK50 usually needs a rotation to align correctly -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:schunk_egk50_gripper>
+  </xacro:if>
+
+  <!-- ========================================== -->
+  <!-- GRIPPER: tesollo_dg5f                      -->
+  <!-- ========================================== -->
+  <xacro:if value="${'$(arg gripper_type)' == 'tesollo_dg5f'}">
+    <xacro:include filename="$(find dg_description)/urdf/dg5f_right.xacro"/>
+    
+    <!-- Fix Tesollo Base to the Robot Arm -->
+    <joint name="arm_to_tesollo_joint" type="fixed">
+      <parent link="$(arg prefix)arm_tool0"/>
+      <child link="right_base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+    </joint>
+  </xacro:if>
+
+</robot>

@@ -1,0 +1,38 @@
+environment:
+  control_hz: 10                     # Control frequency (Hz)
+  max_steps: 1200                    # Maximum steps per episode
+  gripper_type: "schunk_egk50"       # "schunk_egk50" or "tesollo_dg5f"
+
+arm:
+  delta_q_max: 0.05                  # Max angular displacement per step (rad)
+  home_position: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]  # Rest home position
+
+base:
+  max_linear_vel: 1.0                # m/s
+  max_angular_vel: 1.5               # rad/s
+
+cube:
+  size_range: [0.03, 0.055]          # Cube edge length range (m)
+  mass_values: [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]  # Discrete masses (kg)
+  spawn_x_range: [2.0, 3.0]         # Spawn X range (on operations_table)
+  spawn_y_range: [-0.5, 0.5]        # Spawn Y range
+  table_z: 0.8                       # Source table top height (m)
+
+drop_zone:
+  position: [6.0, 0.0, 0.85]        # Drop bin center (3.5m from source table)
+
+reward:
+  approach_coeff: 1.0                # Approach reward weight
+  grasp_bonus: 10.0                  # Grasp success bonus
+  transport_coeff: 1.0               # Transport reward weight
+  drop_success_bonus: 50.0           # Drop success bonus
+  speed_coeff: 0.1                   # Speed bonus weight
+  collision_penalty: -20.0           # Collision penalty
+  drop_fail_penalty: -30.0           # Out-of-bounds drop penalty
+  action_reg_coeff: 0.01             # Acceleration regularization coefficient
+  heavy_bonus_coeff: 2.0             # Heavy object bonus multiplier
+
+lidar:
+  num_samples: 16                    # Subsampled LiDAR rays
+  max_range: 10.0                    # Max LiDAR range (m)
+  collision_threshold: 0.3           # LiDAR distance threshold for collision (m)

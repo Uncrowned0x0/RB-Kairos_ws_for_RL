@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>kairos_bringup</name>
+  <version>1.0.0</version>
+  <description>
+    Bringup package for the RB-Kairos+ robot simulation.
+    Provides launch files for the full simulation (Gazebo Harmonic + Nav2),
+    keyboard teleop, standalone Nav2, and Tesollo DG-5F-R gripper control.
+  </description>
+
+  <maintainer email="robot@lab.fr">Kairos Lab</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Launch system -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <!-- Simulation dependencies -->
+  <exec_depend>rbkairos_description</exec_depend>
+  <exec_depend>robotnik_gazebo_ignition</exec_depend>
+
+  <!-- Navigation -->
+  <exec_depend>nav2_bringup</exec_depend>
+
+  <!-- Teleop dependencies -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+
+  <!-- Tesollo gripper -->
+  <exec_depend>dg5f_gz</exec_depend>
+  <exec_depend>dg_description</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

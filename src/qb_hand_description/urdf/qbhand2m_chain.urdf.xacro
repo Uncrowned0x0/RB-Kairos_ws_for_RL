@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="2dof_chain_hand" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find qb_hand_description)/urdf/qbhand.utils.xacro"/>
+  <link name="root_link"/>
+  <xacro:build_hand_2m_from_yaml configuration="qbhand_right" namespace="qbhand2m1" parent="root">
+    <origin xyz="1 0 0" rpy="0 0 0"/>
+  </xacro:build_hand_2m_from_yaml>
+  <xacro:build_hand_2m_from_yaml configuration="qbhand_left" namespace="qbhand2m2" parent="root">
+    <origin xyz="-1 0 0" rpy="0 0 0"/>
+  </xacro:build_hand_2m_from_yaml>
+</robot>

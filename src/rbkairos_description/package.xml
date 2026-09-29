@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>rbkairos_description</name>
+  <version>1.1.2</version>
+  <description>URDF description of the RB Kairos robot</description>
+
+  <url type="website">http://ros.org/wiki/rbkairos_description</url>
+  <url type="repository">https://github.com/RobotnikAutomation/rbkairos_common.git</url>
+  <url type="bugtracker">https://github.com/RobotnikAutomation/rbkairos_common/issues</url>
+
+  <author email="rguzman@robotnik.es">Roberto Guzmán</author>
+  <author email="rnavarro@robotnik.es">Román Navarro</author>
+  <maintainer email="aarnal@robotnik.es">Álex Arnal</maintainer>
+  <maintainer email="mmillet@robotnik.es">Marta Millet</maintainer>
+  <maintainer email="jgomez@robotnik.es">Jose Gómez</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+  <depend>robotnik_sensors</depend>
+  <depend>ur_description</depend>
+  <depend>qb_hand_description</depend>
+  <depend>schunk_egk50_description</depend>
+  <depend>dg_description</depend>
+  <depend>onrobot_rg6_description</depend>
+  <depend>xela_description</depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
